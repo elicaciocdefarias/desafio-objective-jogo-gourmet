@@ -88,8 +88,6 @@ class HandleMiddleSides(AbstractHandler):
 
 class HandleNodeSides(AbstractHandler):
     def handle(self, node, middle, down):
-
-        # side = "left" if node.type == TypeNode.RIGHT else "right"
         setattr(node.parent, node.type.value, down)
         node.parent = down
         return super().handle(node, middle, down)
@@ -97,7 +95,6 @@ class HandleNodeSides(AbstractHandler):
 
 class HandleDownSides(AbstractHandler):
     def handle(self, node, middle, down):
-        # side = "right" if node.type == TypeNode.RIGHT else "left"
         middle.parent = down
         setattr(down, node.type.value, node)
         return super().handle(node, middle, down)

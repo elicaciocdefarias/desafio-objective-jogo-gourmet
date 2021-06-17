@@ -56,6 +56,21 @@ def test_handle_user_input_dish_name_should_called_once_with_correct_arguments(m
     spy.assert_called_once_with(node)
 
 
+# def test_handle_user_input_dish_name_should_correct_text(mocker):
+#     def fake_handle(*args):
+#         return args
+
+#     mocker.patch(
+#         "handlers.HandleUserInputDishName.handle",
+#         fake_handle,
+#     )
+#     node = Node("", None)
+#     user_input_dish_name = HandleUserInputDishName()
+#     result = user_input_dish_name.handle(node)
+#     print(result)
+#     assert result is None
+
+
 def test_handle_middle_node_should_called_once_with_correct_arguments(mocker):
     node = Node("", None)
     dish_name = "massa"
@@ -124,7 +139,7 @@ def test_handle_node_sides_should_called_once_with_correct_arguments(mocker):
 
 
 def test_handle_down_sides_should_called_once_with_correct_arguments(mocker):
-    node = Node("", None)
+    node = Node("", TypeNode.RIGHT)
     middle = node
     down = node
 
