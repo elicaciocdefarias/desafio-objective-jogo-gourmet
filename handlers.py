@@ -105,3 +105,32 @@ class HandleFinalizeOrContinue(AbstractHandler):
             print("Acertei de novo!")
             return super().handle(node, loop)
         return loop(node.left)
+
+
+class HandleCreateNodeOrContinue:
+    def __init__(self):
+        self.node_type_none = HandleNodeTypeNone()
+
+    def order_handlers(self):
+        handlers = [
+            HandleNodeSideNone(),
+            HandleUserInputDishName(),
+            HandleMiddleNode(),
+            HandleUserInputDishType(),
+            HandleDownNode(),
+            HandleMiddleSides(),
+            HandleNodeSides(),
+            HandleDownSides(),
+        ]
+
+        last = None
+        for handle in handlers:
+            if self.node_type_none._next_handler is None:
+                self.node_type_none.set_next(handle)
+            else:
+                last.set_next(handle)
+            last = handle
+
+    def handle(self, node, loop):
+        self.order_handlers()
+        return self.node_type_none.handle(node, loop)

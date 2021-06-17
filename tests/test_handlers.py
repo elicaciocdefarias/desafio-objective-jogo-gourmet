@@ -8,6 +8,8 @@ from handlers import (
     HandleMiddleSides,
     HandleNodeSides,
     HandleDownSides,
+    HandleFinalizeOrContinue,
+    HandleCreateNodeOrContinue,
 )
 from node import Node, TypeNode
 
@@ -131,3 +133,31 @@ def test_handle_down_sides_should_called_once_with_correct_arguments(mocker):
 
     down_sides.handle(node, middle, down)
     spy.assert_called_once_with(node, middle, down)
+
+
+def test_handle_finalize_sides_should_called_once_with_correct_arguments(mocker):
+    node = Node("", None)
+
+    def fake_loop(node):
+        return
+
+    finalize_or_continue = HandleFinalizeOrContinue()
+    spy = mocker.spy(finalize_or_continue, "handle")
+
+    finalize_or_continue.handle(node, fake_loop)
+    spy.assert_called_once_with(node, fake_loop)
+
+
+def test_handle_create_node_or_continue_should_called_once_with_correct_arguments(
+    mocker,
+):
+    node = Node("", None)
+
+    def fake_loop(node):
+        return
+
+    create_node_or_continue = HandleCreateNodeOrContinue()
+    spy = mocker.spy(create_node_or_continue, "handle")
+
+    create_node_or_continue.handle(node, fake_loop)
+    spy.assert_called_once_with(node, fake_loop)
