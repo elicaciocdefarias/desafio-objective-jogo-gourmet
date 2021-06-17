@@ -1,63 +1,41 @@
-from node import DefineSidesNodes, DownNode, MiddleNode, TypeNode
+from handlers import (
+    HandleFinalizeOrContinue,
+    HandleNodeTypeNone,
+    HandleNodeSideNone,
+    HandleUserInputDishName,
+    HandleMiddleNode,
+    HandleUserInputDishType,
+    HandleDownNode,
+    HandleMiddleSides,
+    HandleNodeSides,
+    HandleDownSides,
+)
 
 
 def execute(node):
     response = input(f"O prato que você pensou é {node}? ")
     if response == "sim":
-        finalize_or_continue = FinalizeOrContinue(node, execute)
-        finalize_or_continue.execute()
+        finalize_or_continue = HandleFinalizeOrContinue()
+        finalize_or_continue.handle(node, execute)
     else:
-        create_node_or_continue = CreateNodeOrContinue(
-            node,
-            execute,
-            MiddleNode,
-            DownNode,
-            DefineSidesNodes,
+        node_type_none = HandleNodeTypeNone()
+        node_side_none = HandleNodeSideNone()
+        user_input_dish_name = HandleUserInputDishName()
+        middle_node = HandleMiddleNode()
+        user_input_dish_type = HandleUserInputDishType()
+        down_node = HandleDownNode()
+        middle_sides = HandleMiddleSides()
+        node_sides = HandleNodeSides()
+        down_sides = HandleDownSides()
+
+        node_type_none.set_next(node_side_none).set_next(user_input_dish_name).set_next(
+            middle_node
+        ).set_next(user_input_dish_type).set_next(down_node).set_next(
+            middle_sides
+        ).set_next(
+            node_sides
+        ).set_next(
+            down_sides
         )
-        create_node_or_continue.execute()
+        node_type_none.handle(node, execute)
     return
-
-
-class FinalizeOrContinue:
-    def __init__(self, node, function_execute):
-        self.node = node
-        self.function_execute = function_execute
-
-    def execute(self):
-        if self.node.left is None:
-            print("Acertei de novo!")
-            return
-        return self.function_execute(self.node.left)
-
-
-class CreateNodeOrContinue:
-    def __init__(
-        self,
-        node,
-        loop,
-        middle_node,
-        down_node,
-        define_sides_nodes,
-    ):
-        self.node = node
-        self.loop = loop
-        self.middle_node = middle_node
-        self.down_node = down_node
-        self.define_sides_nodes = define_sides_nodes
-
-    def define(self):
-        down_type = (
-            TypeNode.LEFT if self.node.type == TypeNode.RIGHT else TypeNode.RIGHT
-        )
-        middle = self.middle_node.fromtype(self.node.type)
-        down = self.down_node.fromtype(down_type, self.node, middle)
-        self.define_sides_nodes.to(self.node, middle, down)
-
-    def execute(self):
-        if self.node.type is None:
-            return self.loop(self.node.right)
-
-        side_node = getattr(self.node, self.node.type.value)
-        if side_node is not None:
-            return self.loop(side_node)
-        return self.define()
