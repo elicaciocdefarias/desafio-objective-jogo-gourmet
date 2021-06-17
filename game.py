@@ -1,6 +1,15 @@
 from handlers import HandleFinalizeOrContinue, HandleCreateNodeOrContinue
 
 
+def title(message):
+    print(
+        f"""
+            {message}
+                ***
+        """
+    )
+
+
 def loop(node):
     response = input(f"O prato que você pensou é {node}? ")
     if response == "sim":

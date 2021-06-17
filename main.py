@@ -3,12 +3,7 @@ import game
 
 
 class Main:
-    print(
-        """     
-            Jogo Gourmet     
-                ***
-        """
-    )
+    game.title("Jogo Gourmet")
     parent = FactoryNode.factory("massa", "Lasanha", "Bolo de Chocolate")
 
     while True:
