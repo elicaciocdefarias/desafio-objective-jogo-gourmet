@@ -1,12 +1,12 @@
 from handlers import HandleFinalizeOrContinue, HandleCreateNodeOrContinue
 
 
-def execute(node):
+def loop(node):
     response = input(f"O prato que você pensou é {node}? ")
     if response == "sim":
         finalize_or_continue = HandleFinalizeOrContinue()
-        finalize_or_continue.handle(node, execute)
+        finalize_or_continue.handle(node, loop)
     else:
         create_node_or_continue = HandleCreateNodeOrContinue()
-        create_node_or_continue.handle(node, execute)
+        create_node_or_continue.handle(node, loop)
     return

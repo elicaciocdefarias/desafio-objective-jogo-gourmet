@@ -14,7 +14,7 @@ class Main:
     while True:
         response = input("Pense em um prato que gosta e digite ok. ")
         if response == "ok":
-            game.execute(parent)
+            game.loop(parent)
         else:
             break
 
