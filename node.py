@@ -17,3 +17,17 @@ class Node:
 
     def __str__(self):
         return self.value
+
+
+class FactoryNode:
+    @classmethod
+    def factory(cls, parent, left, right):
+        _parent = Node(parent, None)
+        _left = Node(left, TypeNode.LEFT)
+        _right = Node(right, TypeNode.RIGHT)
+
+        _parent.left = _left
+        _parent.right = _right
+        _left.parent = _parent
+        _right.parent = _parent
+        return _parent
