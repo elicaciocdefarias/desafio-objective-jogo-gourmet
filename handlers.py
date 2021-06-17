@@ -55,9 +55,9 @@ class HandleMiddleNode(AbstractHandler):
         down_type = left if node.type == right else right
         middle = Node(
             dish_name,
-            node.type,
+            down_type,
         )
-        return super().handle(down_type, node, middle)
+        return super().handle(node.type, node, middle)
 
 
 class HandleUserInputDishType(AbstractHandler):
@@ -77,25 +77,29 @@ class HandleDownNode(AbstractHandler):
 
 class HandleMiddleSides(AbstractHandler):
     def handle(self, node, middle, down):
-        middle.parent = node.parent
-        middle.left = down if node.type == TypeNode.RIGHT else node
-        middle.right = node if node.type == TypeNode.RIGHT else down
+
+        down.parent = node.parent
+
+        down.left = middle if node.type == TypeNode.RIGHT else node
+        down.right = node if node.type == TypeNode.RIGHT else middle
+
         return super().handle(node, middle, down)
 
 
 class HandleNodeSides(AbstractHandler):
     def handle(self, node, middle, down):
-        side = "right" if node.type == TypeNode.RIGHT else "left"
-        setattr(node.parent, side, middle)
-        node.parent = middle
+
+        # side = "left" if node.type == TypeNode.RIGHT else "right"
+        setattr(node.parent, node.type.value, down)
+        node.parent = down
         return super().handle(node, middle, down)
 
 
 class HandleDownSides(AbstractHandler):
     def handle(self, node, middle, down):
-        side = "right" if node.type == TypeNode.RIGHT else "left"
-        down.parent = middle
-        setattr(down, side, node)
+        # side = "right" if node.type == TypeNode.RIGHT else "left"
+        middle.parent = down
+        setattr(down, node.type.value, node)
         return super().handle(node, middle, down)
 
 
